@@ -145,36 +145,43 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
+  Widget _buildCupertinoNavigationBar() {
+    return CupertinoNavigationBar(
+      middle: Text(
+        'Expense Planner',
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            onTap: () => _startNewTransaction(context),
+            child: Icon(CupertinoIcons.add),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return AppBar(
+      title: Text(
+        'Expense Planner',
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startNewTransaction(context),
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text(
-              'Expense Planner',
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  onTap: () => _startNewTransaction(context),
-                  child: Icon(CupertinoIcons.add),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text(
-              'Expense Planner',
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startNewTransaction(context),
-              )
-            ],
-          );
+    final PreferredSizeWidget appBar =
+        Platform.isIOS ? _buildCupertinoNavigationBar() : _buildAppBar();
 
     final txListWidget = Container(
         height: (mediaQuery.size.height -
